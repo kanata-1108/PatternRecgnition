@@ -8,9 +8,9 @@ wine = load_wine()
 wine_df = pd.DataFrame(wine.data, columns = wine.feature_names)
 wine_target = pd.DataFrame(wine.target)
 
-print(wine_df)
 wine_data = np.array(wine_df[["od280/od315_of_diluted_wines", "proline"]])
 target = np.array(wine_target)
+
 plt.scatter(wine_data[:,0], wine_data[:,1], c = target)
 plt.show()
 
@@ -42,9 +42,6 @@ def Kmeans(k, data):
     cluster_label = Metric(k, data, cluster_center)
 
     while True:
-        plt.scatter(data[:,0], data[:,1], c = cluster_label)
-        plt.scatter(cluster_center[:,0], cluster_center[:,1], c = "red")
-        plt.show()
         center_flag = cluster_center.copy()
 
         for y in range(k):

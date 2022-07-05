@@ -8,9 +8,6 @@ cov = np.array([[2, 4], [4, 2]])
 data1 = np.random.multivariate_normal(mean, cov, 100)
 data1 = np.concatenate([data1, np.array([(j[0] + 17, j[1]) for j in data1]), np.array([i + 17 for i in data1])])
 
-plt.scatter(data1[:,0], data1[:,1])
-plt.show()
-
 def Metric(k, data, c_center):
 
     min_index = []
@@ -49,7 +46,6 @@ def Kmeans(k, data):
         cluster_label = Metric(k, data, cluster_center)
 
 label, center = Kmeans(3, data1)
-print(label)
 
 plt.scatter(data1[:,0], data1[:,1], c = label)
 plt.scatter(center[:,0], center[:,1], c = "red")
