@@ -44,7 +44,24 @@ def Logistic_Regression(max_iter, data, labels):
         print("loss :", loss)
         loss_list.append(loss)
 
-    return p_list, loss_list
+    return p_list, loss_list, z, w
+
+def Accuracy(return_label, true_label):
+    count = 0
+    for re_label, tr_label in zip(return_label, true_label):
+        re_label = np.round(re_label)
+        if re_label == tr_label:
+            count += 1
+    
+    accuracyscore = (count / len(true_label)) * 100
+
+    return accuracyscore
+
+def Boundary(xy_data, param_w):
+    x = np.linspace(min(xy_data[:,1]), max(xy_data[:,1]), 100)
+    y = ((param_w[0] + param_w[1] * x) / param_w[2]) * (-1)
+
+    return x, y
 
 if __name__ == "__main__":
     mean = np.array([0, 0])
@@ -57,18 +74,34 @@ if __name__ == "__main__":
     data = np.concatenate([data1, data2])
     data = np.insert(data, 0, 1, axis = 1)
 
-    plt.scatter(data[:,1], data[:,2], c = data[:,3])
-    plt.show()
-
     np.random.shuffle(data)
 
     label = data[:,3].reshape(1, -1).T
     data = np.delete(data, obj = 3, axis = 1)
 
-    P_max, LR_loss = Logistic_Regression(12, data, label)
+    plt.scatter(data[:,1], data[:,2], c = label[:,0])
+    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
+    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
+    plt.show()
+    plt.clf()
 
+    P_max, LR_loss, result_label, result_w = Logistic_Regression(12, data, label)
+
+    accuracy = Accuracy(result_label, label)
+    print("Accuracy :", accuracy)
+
+    boundary_x, boundary_y = Boundary(data, result_w)
+
+    plt.scatter(data[:,1], data[:,2], c = label[:,0])
+    plt.plot(boundary_x, boundary_y, c = "red")
+    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
+    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
+    plt.show()
+
+    plt.clf()
     plt.plot(LR_loss)
     plt.show()
+
     plt.clf()
     plt.plot(P_max)
     plt.show()

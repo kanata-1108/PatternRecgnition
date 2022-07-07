@@ -7,7 +7,7 @@ def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 
 # 誤差関数の定義
-# 引数にデータのラベルとシグモイド関数の返り値
+# 引数：データのラベル, シグモイド関数の返り値
 def Loss(lb, Z):
     loss = 0
     for (t, z) in zip(lb, Z):
@@ -78,7 +78,35 @@ def Logistic_Regression(max_iter, data, labels):
         # パラメータの更新ごとの誤差をリストに挿入
         loss_list.append(loss)
 
-    return p_list, loss_list
+    return p_list, loss_list, z, w
+
+# 正解率を求める関数　引数：ロジスティック回帰後に得られた各データのラベル(確率), 本来のラベル
+def Accuracy(return_label, true_label):
+    count = 0
+    for re_label, tr_label in zip(return_label, true_label):
+
+        # ロジスティック回帰後のラベルは確率なので四捨五入して0か1に四捨五入する
+        re_label = np.round(re_label)
+
+        # 回帰後のラベルと本来のラベルが等しかったらcountに1加算する
+        if re_label == tr_label:
+            count += 1
+    
+    # 正解したデータ数を全データ数で割って百分率で返す
+    accuracyscore = (count / len(true_label)) * 100
+
+    return accuracyscore
+
+# 決定境界を求める関数
+def Boundary(xy_data, param_w):
+
+    # データのx軸の一番小さい値からy軸の一番大きい値の範囲で100個データを生成
+    x = np.linspace(min(xy_data[:,1]), max(xy_data[:,1]), 100)
+
+    # ロジスティック回帰後に得られた重みと上で生成したデータからy座標を算出
+    y = ((param_w[0] + param_w[1] * x) / param_w[2]) * (-1)
+
+    return x, y
 
 if __name__ == "__main__":
     # 平均と分散共分散行列の定義
@@ -93,9 +121,6 @@ if __name__ == "__main__":
     data = np.concatenate([data1, data2])
     data = np.insert(data, 0, 1, axis = 1)
 
-    plt.scatter(data[:,1], data[:,2], c = data[:,3])
-    plt.show()
-
     # 作成したデータをシャッフルする
     np.random.shuffle(data)
 
@@ -103,10 +128,36 @@ if __name__ == "__main__":
     label = data[:,3].reshape(1, -1).T
     data = np.delete(data, obj = 3, axis = 1)
 
-    P_max , LR_loss = Logistic_Regression(12, data, label)
+    plt.scatter(data[:,1], data[:,2], c = label[:,0])
 
+    # 表示するx軸とy軸の上限下限を定義
+    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
+    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
+    plt.show()
+    plt.clf()
+
+    P_max , LR_loss, result_label, result_w = Logistic_Regression(12, data, label)
+
+    # 正解率の算出と表示
+    accuracy = Accuracy(result_label, label)
+    print("Accuracy :", accuracy)
+
+    # 決定境界の座標の算出
+    boundary_x, boundary_y = Boundary(data, result_w)
+
+    # 元のデータ上に決定境界を表示
+    plt.scatter(data[:,1], data[:,2], c = label[:,0])
+    plt.plot(boundary_x, boundary_y, c = "red")
+    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
+    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
+    plt.show()
+    plt.clf()
+
+    # 更新ごとの誤差の推移グラフの表示
     plt.plot(LR_loss)
     plt.show()
     plt.clf()
+
+    # 更新後との尤度グラフの表示
     plt.plot(P_max)
     plt.show()
