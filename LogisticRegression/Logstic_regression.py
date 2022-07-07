@@ -65,7 +65,7 @@ if __name__ == "__main__":
     label = data[:,3].reshape(1, -1).T
     data = np.delete(data, obj = 3, axis = 1)
 
-    P_max , LR_loss = Logistic_Regression(12, data, label)
+    P_max, LR_loss = Logistic_Regression(12, data, label)
 
     plt.plot(LR_loss)
     plt.show()
