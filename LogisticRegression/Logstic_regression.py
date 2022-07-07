@@ -38,7 +38,7 @@ def Logistic_Regression(max_iter, data, labels):
         R = np.diag(zz)
         
         H_inv = np.linalg.inv(data.T @ R @ data)
-        w = w - 0.05 * (H_inv @ (data.T @ (z - labels)))
+        w = w -  (H_inv @ (data.T @ (z - labels)))
 
         loss = Loss(labels, z)
         print("loss :", loss)
@@ -48,24 +48,24 @@ def Logistic_Regression(max_iter, data, labels):
 
 if __name__ == "__main__":
     mean = np.array([0, 0])
-    cov = np.array([[3, 2], [2, 5]])
+    cov = np.array([[0.03, 0.02], [0.02, 0.05]])
 
     data1 = np.random.multivariate_normal(mean, cov, 250)
     data1 = np.insert(data1, 2, 0, axis = 1)
-    data2 = np.array([(j[0] + 7, j[1]) for j in data1])
+    data2 = np.array([(j[0] + 0.5, j[1]) for j in data1])
     data2 = np.insert(data2, 2, 1, axis = 1)
     data = np.concatenate([data1, data2])
     data = np.insert(data, 0, 1, axis = 1)
 
-    # plt.scatter(data[:,1], data[:,2], c = data[:,3])
-    # plt.show()
+    plt.scatter(data[:,1], data[:,2], c = data[:,3])
+    plt.show()
 
     np.random.shuffle(data)
 
     label = data[:,3].reshape(1, -1).T
     data = np.delete(data, obj = 3, axis = 1)
 
-    P_max , LR_loss = Logistic_Regression(200, data, label)
+    P_max , LR_loss = Logistic_Regression(12, data, label)
 
     plt.plot(LR_loss)
     plt.show()
