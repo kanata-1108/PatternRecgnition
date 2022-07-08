@@ -9,7 +9,7 @@
     kmeans.pyに対して、説明を付け加えたプログラム
 - **kmeans_wine.py**
 
-    sklearnのwineデータセットに対してkmeansを行うプログラム
+    scikit-learnが提供するwineデータセットに対してkmeansを行うプログラム
 
 ## Logistic Regression
 - **Logistic_regression.py**
