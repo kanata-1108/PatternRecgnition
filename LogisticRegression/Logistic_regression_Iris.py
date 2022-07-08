@@ -99,8 +99,8 @@ if __name__ == "__main__":
     label = np.where(label == 1, 0, 1)
 
     plt.scatter(data[:,1], data[:,2], c = label)
-    plt.xlim(min(data[:,1]), max(data[:,1]))
-    plt.ylim(min(data[:,2]), max(data[:,2]))
+    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
+    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
     plt.show()
     plt.clf()
 
