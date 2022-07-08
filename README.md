@@ -16,6 +16,10 @@
 
     ランダムなデータを生成してそれに対してロジスティック回帰を行うプログラム
 
-- **Logistic_regression.py**
+- **Logistic_regression_comment.py**
 
     Logistic_regression.pyに対して、説明を付け加えたプログラム
+
+- **Logistic_regression_Iris.py**
+
+    scikit-learnが提供するIrisデータセットに対してロジスティック回帰を行うプログラム
