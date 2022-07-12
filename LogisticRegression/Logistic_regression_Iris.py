@@ -43,9 +43,6 @@ def Logistic_Regression(max_iter, data, labels):
             z[i, 0] = Sigmoid(a)
             z_1[i, 0] = z[i, 0] * (1 - z[i, 0])
             p *= (z[i, 0] ** l) * ((1 - z[i, 0]) ** (1 - l))
-        
-        p_list.append(p)
-        p = 1
 
         zz = np.ravel(z_1)
         R = np.diag(zz)
@@ -54,8 +51,11 @@ def Logistic_Regression(max_iter, data, labels):
         w = w -  (H_inv @ (data.T @ (z - labels)))
 
         loss = Loss(labels, z)
-        print("loss :", loss)
+        print("loss :{} likelihood :{}".format(loss, p[0]))
         loss_list.append(loss)
+        p_list.append(p)
+        
+        p = 1
 
     return p_list, loss_list, z, w
 
