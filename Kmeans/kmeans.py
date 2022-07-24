@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 mean = np.array([0, 0])
-cov = np.array([[2, 4], [4, 2]])
+cov = np.array([[4, 2], [2, 4]])
 
 data1 = np.random.multivariate_normal(mean, cov, 100)
 data1 = np.concatenate([data1, np.array([(j[0] + 17, j[1]) for j in data1]), np.array([i + 17 for i in data1])])

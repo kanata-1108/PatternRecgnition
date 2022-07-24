@@ -4,7 +4,7 @@ import random
 
 # 平均と分散共分散行列の定義
 mean = np.array([0, 0])
-cov = np.array([[2, 4], [4, 2]])
+cov = np.array([[4, 2], [2, 4]])
 
 # 平均と分散共分散行列からデータ点を100個生成
 data1 = np.random.multivariate_normal(mean, cov, 100)
