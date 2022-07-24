@@ -111,7 +111,7 @@ def EMalgorithum(max_iter, k, data, mean, cov, pi):
     # 尤度の初期値を算出
     first_likelihood = Likelihood(k, data, mean, cov, pi)
     likelihood_list.append(first_likelihood)
-    print(first_likelihood)
+    print("log likelihood :", first_likelihood)
 
     # 指定した回数(max_iter)EMアルゴリズムを行う
     for _ in range(max_iter):
@@ -124,7 +124,7 @@ def EMalgorithum(max_iter, k, data, mean, cov, pi):
         after_likelihood = Likelihood(k, data, mean, cov, pi)
         likelihood_list.append(after_likelihood)
 
-        print("対数尤度 :", after_likelihood)
+        print("log likelihood :", after_likelihood)
     
     # 最終的に得られた各データの負担率のうち一番大きい値のインデックスをリストに格納
     # 格納したリストが推定したデータのラベルになる
@@ -184,5 +184,5 @@ if __name__ == "__main__":
     plt.clf()
 
     # 尤度の推移のグラフ
-    plt.plot(range(0, 31), lkhood)
+    plt.plot(range(0, 21), lkhood)
     plt.show()

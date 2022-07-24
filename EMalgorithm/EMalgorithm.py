@@ -85,7 +85,7 @@ def EMalgorithum(max_iter, k, data, mean, cov, pi):
 
     first_likelihood = Likelihood(k, data, mean, cov, pi)
     likelihood_list.append(first_likelihood)
-    print(first_likelihood)
+    print("log likelihood :", first_likelihood)
 
     for _ in range(max_iter):
         resp = Resp(k, data, mean, cov, pi)
@@ -95,13 +95,13 @@ def EMalgorithum(max_iter, k, data, mean, cov, pi):
         after_likelihood = Likelihood(k, data, mean, cov, pi)
         likelihood_list.append(after_likelihood)
 
-        print(after_likelihood)
+        print("log likelihood :", after_likelihood)
     
     for l in resp:
         max_index = np.argmax(l)
         cluster_label.append(max_index)
     
-    return likelihood_list, cluster_label, mean, cov, pi
+    return likelihood_list, cluster_label
 
 if __name__ == "__main__":
     data_mean = np.array([0, 0])
@@ -126,7 +126,7 @@ if __name__ == "__main__":
 
     k = 3
 
-    lkhood, result_label, result_mean, result_cov, result_pi = EMalgorithum(30, k, sample_data, rand_mean, rand_cov, rand_pi)
+    lkhood, result_label = EMalgorithum(20, k, sample_data, rand_mean, rand_cov, rand_pi)
 
     plt.scatter(sample_data[:,0], sample_data[:,1], c = label)
     plt.show()
@@ -136,5 +136,5 @@ if __name__ == "__main__":
     plt.show()
     plt.clf()
 
-    plt.plot(range(0, 31), lkhood)
+    plt.plot(range(0, 21), lkhood)
     plt.show()
