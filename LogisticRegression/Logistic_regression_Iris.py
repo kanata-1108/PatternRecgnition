@@ -29,6 +29,15 @@ def Logistic_Regression(max_iter, data, labels):
 
     w = np.random.rand(len(data[0])).reshape([3, 1])
 
+    first_boundary_x, first_boundary_y = Boundary(data, w)
+
+    plt.scatter(data[:,1], data[:,2], c = label[:,0])
+    plt.plot(first_boundary_x, first_boundary_y, c = "red")
+    plt.xlim(min(data[:,1]), max(data[:,1]))
+    plt.ylim(min(data[:,2]) - 1, max(data[:,2]) + 1)
+    plt.show()
+    plt.clf()
+
     l = len(data)
     z = np.empty((l, 1))
     z_1 = np.empty((l, 1))
@@ -98,12 +107,6 @@ if __name__ == "__main__":
     # 正解ラベルが1と2なので0と1になるように置換
     label = np.where(label == 1, 0, 1)
 
-    plt.scatter(data[:,1], data[:,2], c = label)
-    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
-    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
-    plt.show()
-    plt.clf()
-
     P_max, LR_loss, result_label, result_w = Logistic_Regression(10, data, label)
 
     accuracy = Accuracy(result_label, label)
@@ -113,8 +116,8 @@ if __name__ == "__main__":
 
     plt.scatter(data[:,1], data[:,2], c = label[:,0])
     plt.plot(boundary_x, boundary_y, c = "red")
-    plt.xlim(min(data[:,1]) - 0.04, max(data[:,1]) + 0.04)
-    plt.ylim(min(data[:,2]) - 0.04, max(data[:,2]) + 0.04)
+    plt.xlim(min(data[:,1]), max(data[:,1]))
+    plt.ylim(min(data[:,2]) - 1, max(data[:,2]) + 1)
     plt.show()
 
     plt.clf()

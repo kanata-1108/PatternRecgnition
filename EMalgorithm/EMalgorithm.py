@@ -67,15 +67,17 @@ def Pi(k, data, resp):
 
 def Likelihood(k, data, mean, cov, pi):
     tmp = 0
-    likelihood = 0
+    likelihood_tmp = 0
 
     for i in range(len(data)):
         for j in range(k):
             N = np.exp((-0.5) * (data[i] - mean[j]).T @ np.linalg.inv(cov[j]) @ (data[i] - mean[j])) / np.sqrt(((2 * np.pi) ** 2) * np.linalg.det(cov[j]))
             tmp += pi[j] * N
         
-        likelihood += np.log(tmp)
+        likelihood_tmp += np.log(tmp)
+        likelihood = likelihood_tmp
         tmp = 0
+        likelihood_tmp = 0
     
     return likelihood
 
@@ -120,8 +122,8 @@ if __name__ == "__main__":
     label = sample_data[:,2].reshape(1, -1).T
     sample_data = np.delete(sample_data, obj = 2, axis = 1)
 
-    rand_mean = np.random.randint(3, 10, (3, 2))
-    rand_cov = np.array([np.identity(2) * 5 for _ in range(3)])
+    rand_mean = np.random.randint(0, 10, (3, 2))
+    rand_cov = np.array([np.identity(2) * 2 for _ in range(3)])
     rand_pi = np.random.random_sample(3)
 
     k = 3
